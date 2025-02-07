@@ -1,0 +1,23 @@
+{
+  "name": "@pricefeed/sdk",
+  "version": "0.0.1",
+  "description": "SDK for pricefeed.info.",
+  "license": "MIT",
+  "author": "Masahiko Hyuga <mhyuga@janom.co.jp>",
+  "type": "commonjs",
+  "main": "./dist/index.js",
+  "scripts": {
+    "start": "npm run build && node ./dist/index.js",
+    "example:ping": "npm run build && node ./dist/examples/ping.js",
+    "example:subscribe": "npm run build && node ./dist/examples/subscribe.js",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "reconnecting-websocket": "^4.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.1",
+    "typescript": "^5.7.3"
+  }
+}

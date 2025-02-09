@@ -32,3 +32,21 @@ export interface WebSocketResponseSnapshot extends WebSocketResponseSuccess<'sna
 	id: number;
 }
 export type WebSocketResponseUpdate = Omit<WebSocketResponseSuccess<'update', ExchangeRate[]>, 'id'>;
+
+export interface WebSocketRequest<T extends string, U> {
+	method: string;
+	data: {
+		type: T,
+		payload: U,
+	}
+}
+export interface WebSocketRequestPing {
+	method: 'ping';
+};
+export interface WebSocketRequestSubscribe<T extends string, U> extends WebSocketRequest<T, U> {
+	method: 'subscribe';
+}
+export interface WebSocketRequestSubscribeRate extends WebSocketRequestSubscribe<'rate', string[]> {
+}
+export interface WebSocketRequestSubscribePrice extends WebSocketRequestSubscribe<'price', string> {
+}

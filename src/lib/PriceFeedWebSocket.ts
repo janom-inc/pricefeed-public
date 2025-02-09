@@ -6,6 +6,9 @@ import {
 	WebSocketResponsePing,
 	WebSocketResponseSnapshot,
 	WebSocketResponseUpdate,
+	WebSocketRequestPing,
+	WebSocketRequestSubscribeRate,
+	WebSocketRequestSubscribePrice,
 	CloseEventFallback,
 	TypedEventTarget,
 } from '../types';
@@ -86,11 +89,30 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 	}
 	
 	public ping(): Promise<WebSocketResponsePing> {
-		return this.send({ method: 'ping' });
+		const req: WebSocketRequestPing = { method: 'ping' };
+		return this.send(req);
 	}
 	
-	public subscribe(sourceStrs: string[]): Promise<WebSocketResponseSnapshot> {
-		return this.send({ method: 'subscribe', data: sourceStrs });
+	public subscribeRates(pathElemStrs: string[]): Promise<WebSocketResponseSnapshot> {
+		const req: WebSocketRequestSubscribeRate = {
+			method: 'subscribe',
+			data: {
+				type: 'rate',
+				payload: pathElemStrs,
+			},
+		};
+		return this.send(req);
+	}
+	
+	public subscribePrice(pairStr: string): Promise<WebSocketResponseSnapshot> {
+		const req: WebSocketRequestSubscribePrice = {
+			method: 'subscribe',
+			data: {
+				type: 'price',
+				payload: pairStr,
+			},
+		};
+		return this.send(req);
 	}
 	
 }

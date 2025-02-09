@@ -24,9 +24,9 @@ describe('PriceFeedWebSocket', () => {
 		}
 		sdk.close();
 	});
-	test('subscribe (empty)', async () => {
+	test('subscribeRates (empty)', async () => {
 		const sdk = new PriceFeedWebSocket();
-		const res = await sdk.subscribe([]);
+		const res = await sdk.subscribeRates([]);
 		try {
 			typia.assertEquals<WebSocketResponseSnapshot>(res);
 		} catch (e) {
@@ -35,9 +35,9 @@ describe('PriceFeedWebSocket', () => {
 		}
 		sdk.close();
 	});
-	test('subscribe (binance:BTC-USDT)', async () => {
+	test('subscribeRates (binance:BTC-USDT)', async () => {
 		const sdk = new PriceFeedWebSocket();
-		const res = await sdk.subscribe(['binance:BTC-USDT']);
+		const res = await sdk.subscribeRates(['binance:BTC-USDT']);
 		try {
 			typia.assertEquals<WebSocketResponseSnapshot>(res);
 		} catch (e) {
@@ -48,7 +48,7 @@ describe('PriceFeedWebSocket', () => {
 	});
 	test('receive update (binance:BTC-USDT)', async () => {
 		const sdk = new PriceFeedWebSocket();
-		await sdk.subscribe(['binance:BTC-USDT']);
+		await sdk.subscribeRates(['binance:BTC-USDT']);
 		const res = await new Promise<WebSocketResponseUpdate>((resolve) => {
 			sdk.addEventListener('message-update', (event) => {
 				resolve(event.data);

@@ -59,7 +59,7 @@ export class PriceFeed extends (EventTarget as typeof TypedEventTarget<{
 	}
 	
 	public async watchRates(elems: Set<PathElement>): Promise<ExchangeRate[]> {
-		const res = await this.ws.subscribe([...elems.values()].map((sourceAndPair) => sourceAndPair.toString()));
+		const res = await this.ws.subscribeRates([...elems.values()].map((sourceAndPair) => sourceAndPair.toString()));
 		return res.data.payload;
 	}
 	

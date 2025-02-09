@@ -6,8 +6,9 @@ import {
 	WebSocketResponsePing,
 	WebSocketResponseSnapshot,
 	WebSocketResponseUpdate,
+	WebSocketRequest,
 	WebSocketRequestPing,
-	WebSocketRequestSubscribeRate,
+	WebSocketRequestSubscribeRates,
 	WebSocketRequestSubscribePrice,
 	CloseEventFallback,
 	TypedEventTarget,
@@ -71,7 +72,7 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 		this._ws.close();
 	}
 	
-	public async send(data: any) {
+	public async send<T extends string, U>(data: WebSocketRequest<T, U>) {
 		if(data.id === undefined) {
 			data.id = this._id++;
 		}
@@ -89,12 +90,12 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 	}
 	
 	public ping(): Promise<WebSocketResponsePing> {
-		const req: WebSocketRequestPing = { method: 'ping' };
+		const req: Omit<WebSocketRequestPing, 'id'> = { method: 'ping' };
 		return this.send(req);
 	}
 	
 	public subscribeRates(pathElemStrs: string[]): Promise<WebSocketResponseSnapshot> {
-		const req: WebSocketRequestSubscribeRate = {
+		const req: Omit<WebSocketRequestSubscribeRates, 'id'> = {
 			method: 'subscribe',
 			data: {
 				type: 'rate',
@@ -105,7 +106,7 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 	}
 	
 	public subscribePrice(pairStr: string): Promise<WebSocketResponseSnapshot> {
-		const req: WebSocketRequestSubscribePrice = {
+		const req: Omit<WebSocketRequestSubscribePrice, 'id'> = {
 			method: 'subscribe',
 			data: {
 				type: 'price',

@@ -1,6 +1,6 @@
 
 import {
-	ExchangeRateWithSource,
+	ExchangeRate,
 } from '.';
 
 export interface RestStatus {
@@ -42,9 +42,9 @@ export interface RestResponseSuccess<T extends string, U> extends RestResponse<T
 
 export type RestResponsePing = RestResponseSuccess<'pong', null>;
 
-export type RestResponseRate = RestResponseSuccess<'rate', ExchangeRateWithSource>;
+export type RestResponseRate = RestResponseSuccess<'rate', ExchangeRate>;
 
-export type RestResponseRates = RestResponseSuccess<'rates', ExchangeRateWithSource[]>;
+export type RestResponseRates = RestResponseSuccess<'rates', ExchangeRate[]>;
 
 export interface RestPayloadSource {
 	path: string;

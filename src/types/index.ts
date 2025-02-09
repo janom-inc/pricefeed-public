@@ -18,13 +18,8 @@ export interface ExchangeRate {
 	time: number;
 	pair: Pair;
 	rate: number;
-	tradingVolume24h?: TradingVolume;
-	source?: string;
-}
-
-// TODO: Merge with ExchangeRate.
-export interface ExchangeRateWithSource extends ExchangeRate {
 	source: string;
+	tradingVolume24h?: TradingVolume;
 }
 
 export class PathElement {

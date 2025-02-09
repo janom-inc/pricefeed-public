@@ -1,6 +1,6 @@
 
 import {
-	ExchangeRateWithSource,
+	ExchangeRate,
 	RestStatus,
 	RestStatusError,
 	RestStatusSuccess,
@@ -28,7 +28,7 @@ export interface WebSocketResponseSuccess<T extends string, U> extends RestRespo
 export interface WebSocketResponsePing extends RestResponsePing {
 	id: number;
 }
-export interface WebSocketResponseSnapshot extends WebSocketResponseSuccess<'snapshot', ExchangeRateWithSource[]> {
+export interface WebSocketResponseSnapshot extends WebSocketResponseSuccess<'snapshot', ExchangeRate[]> {
 	id: number;
 }
-export type WebSocketResponseUpdate = Omit<WebSocketResponseSuccess<'update', ExchangeRateWithSource[]>, 'id'>;
+export type WebSocketResponseUpdate = Omit<WebSocketResponseSuccess<'update', ExchangeRate[]>, 'id'>;

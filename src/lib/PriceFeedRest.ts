@@ -1,6 +1,5 @@
 
 import {
-	ExchangeRateWithSource,
 	Pair,
 	RestResponsePing,
 	RestResponseRate,

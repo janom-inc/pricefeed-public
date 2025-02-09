@@ -6,42 +6,12 @@ import {
 	WebSocketResponsePing,
 	WebSocketResponseSnapshot,
 	WebSocketResponseUpdate,
+	CloseEventFallback,
+	TypedEventTarget,
 } from '../types';
 
-// Workaround for CloseEvent not being defined in globalThis (e.g. in Node.js).
-export class CloseEventFallback extends Event {
-	public readonly code: number;
-	public readonly reason: string;
-	public readonly wasClean: boolean;
-	constructor(type: string, eventInitDict: any = {}) {
-		super(type, eventInitDict);
-		this.code = eventInitDict.code;
-		this.reason = eventInitDict.reason;
-		this.wasClean = eventInitDict.wasClean;
-	}
-}
 if(!globalThis.CloseEvent) {
 	globalThis.CloseEvent = CloseEventFallback;
-}
-
-// Copied from https://zenn.dev/reosablo/articles/2c3624697ebe8d
-declare class TypedEventTarget<EventMap extends Record<string, Event>> extends EventTarget {
-	addEventListener<Type extends keyof EventMap>(
-		type: Type,
-		listener: (this: this, evt: EventMap[Type]) => void,
-		options?: boolean | AddEventListenerOptions
-	): void;
-	addEventListener(
-		...args: Parameters<EventTarget["addEventListener"]>
-	): void;
-	removeEventListener<Type extends keyof EventMap>(
-		type: Type,
-		listener: (this: this, evt: EventMap[Type]) => void,
-		options?: boolean | EventListenerOptions
-	): void;
-	removeEventListener(
-		...args: Parameters<EventTarget["removeEventListener"]>
-	): void;
 }
 
 export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<{

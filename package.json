@@ -7,17 +7,23 @@
   "type": "commonjs",
   "main": "./dist/index.js",
   "scripts": {
-    "start": "npm run build && node ./dist/index.js",
-    "example:ping": "npm run build && node ./dist/examples/ping.js",
-    "example:subscribe": "npm run build && node ./dist/examples/subscribe.js",
+    "start": "node ./dist/index.js",
+    "example:ping": "node ./dist/examples/ping.js",
+    "example:subscribe": "node ./dist/examples/subscribe.js",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "prepare": "ts-patch install && typia patch"
   },
   "dependencies": {
     "reconnecting-websocket": "^4.4.0"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.13.1",
-    "typescript": "^5.7.3"
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-patch": "^3.3.0",
+    "typescript": "~5.7.3",
+    "typia": "^7.6.3"
   }
 }

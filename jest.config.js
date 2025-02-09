@@ -6,4 +6,5 @@ module.exports = {
 		"^.+.tsx?$": ["ts-jest",{}],
 	},
 	rootDir: './src',
+	coverageDirectory: '../coverage',
 };

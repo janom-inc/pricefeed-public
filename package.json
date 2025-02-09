@@ -1,6 +1,13 @@
 {
   "name": "@pricefeed/sdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
   "description": "SDK for pricefeed.info.",
   "license": "MIT",
   "author": "Masahiko Hyuga <mhyuga@janom.co.jp>",
@@ -11,8 +18,10 @@
     "example:ping": "node ./dist/examples/ping.js",
     "example:subscribe": "node ./dist/examples/subscribe.js",
     "build": "tsc",
+    "clean": "rm -rf dist coverage",
     "test": "jest --coverage",
-    "prepare": "ts-patch install && typia patch"
+    "prepare": "ts-patch install && typia patch",
+    "prepack": "npm run clean && npm run build"
   },
   "dependencies": {
     "reconnecting-websocket": "^4.4.0"

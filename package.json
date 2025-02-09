@@ -1,6 +1,6 @@
 {
   "name": "@pricefeed/sdk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publishConfig": {
     "access": "public"
   },
@@ -13,6 +13,7 @@
   "author": "Masahiko Hyuga <mhyuga@janom.co.jp>",
   "type": "commonjs",
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "start": "node ./dist/index.js",
     "example:ping": "node ./dist/examples/ping.js",

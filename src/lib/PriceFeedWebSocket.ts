@@ -2,8 +2,10 @@
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
 import {
-	ExchangeRate,
-	Pair,
+	WebSocketResponse,
+	WebSocketResponsePing,
+	WebSocketResponseSnapshot,
+	WebSocketResponseUpdate,
 } from '../types';
 
 // Workaround for CloseEvent not being defined in globalThis (e.g. in Node.js).
@@ -46,7 +48,9 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 	open: Event;
 	close: CloseEvent;
 	error: Event;
-	message: MessageEvent;
+	message: MessageEvent<WebSocketResponse<string, unknown>>;
+	'message-snapshot': MessageEvent<WebSocketResponseSnapshot>;
+	'message-update': MessageEvent<WebSocketResponseUpdate>;
 }>) {
 	
 	private _id = 0;
@@ -66,11 +70,22 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 			this.dispatchEvent(new Event('error'));
 		});
 		this._ws.addEventListener('message', (event) => {
+			const data = JSON.parse(event.data);
 			this.dispatchEvent(new MessageEvent('message', {
 				bubbles: event.bubbles,
 				cancelable: event.cancelable,
 				composed: event.composed,
-				data: JSON.parse(event.data),
+				data,
+				origin: event.origin,
+				lastEventId: event.lastEventId,
+				source: event.source,
+				ports: [...event.ports],
+			}));
+			this.dispatchEvent(new MessageEvent(`message-${data.data.type}`, {
+				bubbles: event.bubbles,
+				cancelable: event.cancelable,
+				composed: event.composed,
+				data,
 				origin: event.origin,
 				lastEventId: event.lastEventId,
 				source: event.source,
@@ -100,13 +115,12 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 		});
 	}
 	
-	public async ping() {
-		return await this.send({ method: 'ping' });
+	public ping(): Promise<WebSocketResponsePing> {
+		return this.send({ method: 'ping' });
 	}
 	
-	public async subscribe(pairs?: Pair[] | 'all') {
-		if(!pairs) pairs = 'all';
-		return await this.send({ method: 'subscribe', data: pairs });
+	public subscribe(sourceStrs: string[]): Promise<WebSocketResponseSnapshot> {
+		return this.send({ method: 'subscribe', data: sourceStrs });
 	}
 	
 }

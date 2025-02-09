@@ -1,7 +1,10 @@
 
 export * from './rest';
+export * from './ws';
 
-export interface Pair {
+export type BaseOrQuote = 'base' | 'quote';
+
+export interface Pair extends Record<BaseOrQuote, string> {
 	base: string;
 	quote: string;
 }

@@ -1,10 +1,4 @@
 
-import ReconnectingWebSocket from 'reconnecting-websocket';
-
-import {
-	ExchangeRate,
-	Pair,
-} from '../types';
 import {
 	PriceFeedRest,
 	PriceFeedWebSocket,

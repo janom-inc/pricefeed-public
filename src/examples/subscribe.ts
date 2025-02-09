@@ -5,10 +5,10 @@ const main = async () => {
 	const sdk = new PriceFeed();
 	sdk.ws.addEventListener('open', async () => {
 		console.log('Subscribing to all pairs...');
-		await sdk.ws.subscribe('all');
+		await sdk.ws.subscribe(['binance:BTC-USDT']);
 	});
 	sdk.ws.addEventListener('message', (event) => {
-		console.log(event.data);
+		console.dir(event.data, { depth: null });
 	});
 };
 

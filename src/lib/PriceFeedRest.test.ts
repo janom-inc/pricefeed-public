@@ -5,6 +5,7 @@ import {
 	RestResponsePing,
 	RestResponseRate,
 	RestResponseRates,
+	RestResponseRoute,
 	RestResponsePrice,
 } from '../types';
 import { PriceFeedRest } from './PriceFeedRest';
@@ -22,6 +23,10 @@ describe('PriceFeedRest', () => {
 	test('rates', async () => {
 		const res = await rest.rates();
 		typia.assertEquals<RestResponseRates>(res);
+	});
+	test('route', async () => {
+		const res = await rest.route({ base: 'BTC', quote: 'USDT' });
+		typia.assertEquals<RestResponseRoute>(res);
 	});
 	test('price', async () => {
 		const res = await rest.price({ base: 'BTC', quote: 'USDT' });

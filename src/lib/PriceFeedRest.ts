@@ -5,6 +5,7 @@ import {
 	RestResponsePing,
 	RestResponseRate,
 	RestResponseRates,
+	RestResponseRoute,
 	RestResponsePrice,
 } from '../types';
 
@@ -29,6 +30,10 @@ export class PriceFeedRest {
 	
 	public rates(): Promise<RestResponseRates> {
 		return this.fetch<RestResponseRates>('/v1/rates');
+	}
+	
+	public route(pair: Pair): Promise<RestResponseRoute> {
+		return this.fetch<RestResponseRoute>(`/v1/route/${pair.base}-${pair.quote}`);
 	}
 	
 	public price(pair: Pair): Promise<RestResponsePrice> {

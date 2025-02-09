@@ -11,7 +11,7 @@
     "example:ping": "node ./dist/examples/ping.js",
     "example:subscribe": "node ./dist/examples/subscribe.js",
     "build": "tsc",
-    "test": "jest",
+    "test": "jest --coverage",
     "prepare": "ts-patch install && typia patch"
   },
   "dependencies": {

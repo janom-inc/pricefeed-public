@@ -57,4 +57,6 @@ export interface RestPayloadPrice {
 	sources: RestPayloadSource[],
 }
 
+export type RestResponseRoute = RestResponseSuccess<'route', string[]>;
+
 export type RestResponsePrice = RestResponseSuccess<'price', RestPayloadPrice>;

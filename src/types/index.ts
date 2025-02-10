@@ -11,9 +11,9 @@ export class Pair implements Record<Side, string> {
 		return `${this.base}-${this.quote}`;
 	}
 	
-	public fromString(pairStr: string): Pair {
-		const [base, quote] = pairStr.split('-');
-		if(!base || !quote) {
+	public static fromString(pairStr: string): Pair {
+		const [base, quote, ...rest] = pairStr.split('-');
+		if(!base || !quote || rest.length > 0) {
 			throw new Error(`Invalid pair string: ${pairStr}`);
 		}
 		return new Pair(base, quote);
@@ -47,12 +47,12 @@ export class PathElement {
 	}
 	
 	public static fromString(str: string): PathElement {
-		const [source, pairStr] = str.split(':');
-		if(!pairStr) {
+		const [source, pairStr, ...rest] = str.split(':');
+		if(!source || !pairStr || rest.length > 0) {
 			throw new Error(`Invalid source and pair string: ${str}`);
 		}
-		const [base, quote] = pairStr.split('-');
-		if(!quote) {
+		const [base, quote, ...rest2] = pairStr.split('-');
+		if(!base || !quote || rest2.length > 0) {
 			throw new Error(`Invalid pair string: ${pairStr}`);
 		}
 		return new PathElement(source, new Pair(base, quote));
@@ -66,7 +66,7 @@ export class Path extends Array<PathElement> {
 		return this.map((elem) => elem.toString()).join(',');
 	}
 	
-	public static fromString(pair: Pair, pathStr: string): Path {
+	public static fromString(pathStr: string): Path {
 		const elems = pathStr.split(',').map((elemStr) => PathElement.fromString(elemStr));
 		return new Path(...elems);
 	}

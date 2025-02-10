@@ -13,6 +13,17 @@ import { PriceFeedRest } from './PriceFeedRest';
 
 describe('PriceFeedRest', () => {
 	const rest = new PriceFeedRest();
+	test('construct without PRICEFEED_REST_ENDPOINT', () => {
+		delete process.env.PRICEFEED_REST_ENDPOINT;
+		expect(new PriceFeedRest()).toBeInstanceOf(PriceFeedRest);
+	});
+	test('construct with PRICEFEED_REST_ENDPOINT', () => {
+		process.env.PRICEFEED_REST_ENDPOINT = 'https://api.pricefeed.info';
+		expect(new PriceFeedRest()).toBeInstanceOf(PriceFeedRest);
+	});
+	test('construct with endpoint', () => {
+		expect(new PriceFeedRest('https://api.pricefeed.info')).toBeInstanceOf(PriceFeedRest);
+	});
 	test('ping', async () => {
 		const res = await rest.ping();
 		typia.assertEquals<ResponsePing>(res);

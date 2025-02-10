@@ -63,7 +63,7 @@ export class PriceFeed extends (EventTarget as typeof TypedEventTarget<{
 	
 	public async fetchRoute(pair: Pair): Promise<Route> {
 		const pathStrs: string[] = (await this.rest.route(pair)).data.payload;
-		const paths = pathStrs.map(pathStr => Path.fromString(pair, pathStr));
+		const paths = pathStrs.map(pathStr => Path.fromString(pathStr));
 		return new Set(paths);
 	}
 	

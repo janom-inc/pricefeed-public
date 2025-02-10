@@ -25,8 +25,8 @@ export class PriceFeed extends (EventTarget as typeof TypedEventTarget<{
 	private _rates: Map<string, ExchangeRate> = new Map();
 	
 	constructor(
-		public readonly restEndpoint: string = 'https://api.pricefeed.info',
-		public readonly wsEndpoint: string = 'wss://api.pricefeed.info',
+		public readonly restEndpoint: string = process.env.PRICEFEED_REST_ENDPOINT ?? 'https://api.pricefeed.info',
+		public readonly wsEndpoint: string = process.env.PRICEFEED_WS_ENDPOINT ?? 'wss://api.pricefeed.info',
 	) {
 		super();
 		this.ws.addEventListener('message-rates', (event) => {

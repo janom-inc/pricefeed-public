@@ -31,7 +31,7 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 	private _ws = new ReconnectingWebSocket(this.endpoint);
 	
 	constructor(
-		public readonly endpoint: string = 'wss://api.pricefeed.info',
+		public readonly endpoint: string = process.env.PRICEFEED_WS_ENDPOINT ?? 'wss://api.pricefeed.info',
 	) {
 		super();
 		this._ws.addEventListener('open', (event) => {

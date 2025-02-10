@@ -72,7 +72,7 @@ export interface ResponseSuccess<T extends string, P> extends ResponseBase<T, P>
 
 export type ResponsePing = ResponseSuccess<'pong', undefined>;
 
-export type ResponseRate = ResponseSuccess<'rates', ExchangeRate>;
+export type ResponseRate = ResponseSuccess<'rate', ExchangeRate>;
 
 export type ResponseRates = ResponseSuccess<'rates', ExchangeRate[]>;
 

@@ -11,7 +11,7 @@ import {
 export class PriceFeedRest {
 	
 	constructor(
-		public readonly endpoint: string = 'https://api.pricefeed.info',
+		public readonly endpoint: string = process.env.PRICEFEED_REST_ENDPOINT ??  'https://api.pricefeed.info',
 	) {
 	}
 	

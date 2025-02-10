@@ -12,21 +12,23 @@ export interface RequestData<T extends string, P> {
 	payload: P;
 }
 
-export interface Request<M extends string, T extends string, P> {
+export interface RequestBase<M extends string, T extends string, P> {
 	id?: number;
 	method: M;
-	data?: RequestData<T, P>;
+	data: RequestData<T, P>;
 }
 
-export type RequestPing = Request<'ping', 'dummy', unknown>;
+export type RequestPing = Omit<RequestBase<'ping', 'dummy', unknown>, 'data'>;
 
-export type RequestSubscribe<T extends string, P> = Request<'subscribe', T, P>;
+export type RequestSubscribe<T extends string, P> = RequestBase<'subscribe', T, P>;
 
 // PathElement.toString()[].
 export type RequestSubscribeRates = RequestSubscribe<'rates', string[]>;
 
 // Pair.toString().
 export type RequestSubscribePrice = RequestSubscribe<'price', string>;
+
+export type Request = RequestPing | RequestSubscribeRates | RequestSubscribePrice;
 
 /**
  * Responses.
@@ -54,20 +56,18 @@ export interface ResponseData<T extends string, P> {
 	payload: P,
 }
 
-export interface Response<T extends string, P> {
+export interface ResponseBase<T extends string, P> {
 	id?: number;
 	status: ResponseStatus;
-	data?: ResponseData<T, P>;
-}
-
-export interface ResponseError extends Response<'dummy', unknown> {
-	status: ResponseStatusError;
-	data: undefined;
-}
-
-export interface ResponseSuccess<T extends string, P> extends Response<T, P> {
-	status: RestStatusSuccess;
 	data: ResponseData<T, P>;
+}
+
+export interface ResponseError extends Omit<ResponseBase<'dummy', unknown>, 'data'> {
+	status: ResponseStatusError;
+}
+
+export interface ResponseSuccess<T extends string, P> extends ResponseBase<T, P> {
+	status: RestStatusSuccess;
 }
 
 export type ResponsePing = ResponseSuccess<'pong', undefined>;
@@ -90,3 +90,5 @@ export interface ResponsePayloadPrice {
 }
 
 export type ResponsePrice = ResponseSuccess<'price', ResponsePayloadPrice>;
+
+export type Response = ResponsePing | ResponseRates | ResponsePrice;

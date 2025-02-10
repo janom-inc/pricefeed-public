@@ -22,7 +22,7 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 	open: Event;
 	close: CloseEvent;
 	error: Event;
-	message: MessageEvent<Response<string, unknown>>;
+	message: MessageEvent<Response>;
 	'message-rates': MessageEvent<ResponseRates>;
 	'message-price': MessageEvent<ResponsePrice>;
 }>) {
@@ -64,7 +64,7 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 		this._ws.close();
 	}
 	
-	public async send<M extends string, T extends string, P>(data: Request<M, T, P>) {
+	public async send<M extends string, T extends string, P>(data: Request) {
 		if(data.id === undefined) {
 			data.id = this._id++;
 		}

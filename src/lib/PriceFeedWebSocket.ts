@@ -1,4 +1,5 @@
 
+import WebSocketPackage from 'ws';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
 import {
@@ -28,7 +29,7 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 }>) {
 	
 	private _id = 0;
-	private _ws = new ReconnectingWebSocket(this.endpoint);
+	private _ws = new ReconnectingWebSocket(this.endpoint, undefined, { WebSocket: globalThis.WebSocket ?? WebSocketPackage });
 	
 	constructor(
 		public readonly endpoint: string = process.env.PRICEFEED_WS_ENDPOINT ?? 'wss://api.pricefeed.info',
@@ -53,7 +54,7 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 				origin: event.origin,
 				lastEventId: event.lastEventId,
 				source: event.source,
-				ports: [...event.ports],
+				ports: event.ports ? [...event.ports]: [],
 			};
 			this.dispatchEvent(new MessageEvent('message', messageEvent));
 			this.dispatchEvent(new MessageEvent(`message-${data.data.type}`, messageEvent));

@@ -25,11 +25,13 @@
     "prepack": "npm run clean && npm run build"
   },
   "dependencies": {
-    "reconnecting-websocket": "^4.4.0"
+    "reconnecting-websocket": "^4.4.0",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "^22.13.1",
+    "@types/ws": "^8.5.14",
     "jest": "^29.7.0",
     "ts-jest": "^29.2.5",
     "ts-patch": "^3.3.0",

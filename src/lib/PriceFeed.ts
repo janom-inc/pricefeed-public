@@ -9,8 +9,8 @@ import {
 	Path,
 	Route,
 	ExchangeRate,
-	WebSocketResponseSnapshot,
-	WebSocketResponseUpdate,
+	ResponseRates,
+	ResponsePrice,
 	TypedEventTarget,
 } from '../types';
 
@@ -29,14 +29,12 @@ export class PriceFeed extends (EventTarget as typeof TypedEventTarget<{
 		public readonly wsEndpoint: string = 'wss://api.pricefeed.info',
 	) {
 		super();
-		const subscriptionListener = (event: MessageEvent<WebSocketResponseSnapshot> | MessageEvent<WebSocketResponseUpdate>) => {
+		this.ws.addEventListener('message-rates', (event) => {
 			const rates: ExchangeRate[] = event.data.data.payload;
 			rates.forEach(rate => {
 				this._setRate(rate);
 			});
-		};
-		this.ws.addEventListener('message-snapshot', subscriptionListener);
-		this.ws.addEventListener('message-update', subscriptionListener);
+		});
 	}
 	
 	public close() {

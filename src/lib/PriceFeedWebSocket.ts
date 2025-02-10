@@ -2,14 +2,14 @@
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
 import {
-	WebSocketResponse,
-	WebSocketResponsePing,
-	WebSocketResponseSnapshot,
-	WebSocketResponseUpdate,
-	WebSocketRequest,
-	WebSocketRequestPing,
-	WebSocketRequestSubscribeRates,
-	WebSocketRequestSubscribePrice,
+	Response,
+	ResponsePing,
+	ResponseRates,
+	ResponsePrice,
+	Request,
+	RequestPing,
+	RequestSubscribeRates,
+	RequestSubscribePrice,
 	CloseEventFallback,
 	TypedEventTarget,
 } from '../types';
@@ -22,9 +22,9 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 	open: Event;
 	close: CloseEvent;
 	error: Event;
-	message: MessageEvent<WebSocketResponse<string, unknown>>;
-	'message-snapshot': MessageEvent<WebSocketResponseSnapshot>;
-	'message-update': MessageEvent<WebSocketResponseUpdate>;
+	message: MessageEvent<Response<string, unknown>>;
+	'message-rates': MessageEvent<ResponseRates>;
+	'message-price': MessageEvent<ResponsePrice>;
 }>) {
 	
 	private _id = 0;
@@ -45,7 +45,7 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 		});
 		this._ws.addEventListener('message', (event) => {
 			const data = JSON.parse(event.data);
-			this.dispatchEvent(new MessageEvent('message', {
+			const messageEvent = {
 				bubbles: event.bubbles,
 				cancelable: event.cancelable,
 				composed: event.composed,
@@ -54,17 +54,9 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 				lastEventId: event.lastEventId,
 				source: event.source,
 				ports: [...event.ports],
-			}));
-			this.dispatchEvent(new MessageEvent(`message-${data.data.type}`, {
-				bubbles: event.bubbles,
-				cancelable: event.cancelable,
-				composed: event.composed,
-				data,
-				origin: event.origin,
-				lastEventId: event.lastEventId,
-				source: event.source,
-				ports: [...event.ports],
-			}));
+			};
+			this.dispatchEvent(new MessageEvent('message', messageEvent));
+			this.dispatchEvent(new MessageEvent(`message-${data.data.type}`, messageEvent));
 		});
 	}
 	
@@ -72,7 +64,7 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 		this._ws.close();
 	}
 	
-	public async send<T extends string, U>(data: WebSocketRequest<T, U>) {
+	public async send<M extends string, T extends string, P>(data: Request<M, T, P>) {
 		if(data.id === undefined) {
 			data.id = this._id++;
 		}
@@ -89,24 +81,24 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 		});
 	}
 	
-	public ping(): Promise<WebSocketResponsePing> {
-		const req: Omit<WebSocketRequestPing, 'id'> = { method: 'ping' };
+	public ping(): Promise<ResponsePing> {
+		const req: Omit<RequestPing, 'id'> = { method: 'ping' };
 		return this.send(req);
 	}
 	
-	public subscribeRates(pathElemStrs: string[]): Promise<WebSocketResponseSnapshot> {
-		const req: Omit<WebSocketRequestSubscribeRates, 'id'> = {
+	public subscribeRates(pathElemStrs: string[]): Promise<ResponseRates> {
+		const req: Omit<RequestSubscribeRates, 'id'> = {
 			method: 'subscribe',
 			data: {
-				type: 'rate',
+				type: 'rates',
 				payload: pathElemStrs,
 			},
 		};
 		return this.send(req);
 	}
 	
-	public subscribePrice(pairStr: string): Promise<WebSocketResponseSnapshot> {
-		const req: Omit<WebSocketRequestSubscribePrice, 'id'> = {
+	public subscribePrice(pairStr: string): Promise<ResponsePrice> {
+		const req: Omit<RequestSubscribePrice, 'id'> = {
 			method: 'subscribe',
 			data: {
 				type: 'price',

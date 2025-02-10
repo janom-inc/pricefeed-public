@@ -2,11 +2,12 @@
 import typia from 'typia';
 
 import {
-	RestResponsePing,
-	RestResponseRate,
-	RestResponseRates,
-	RestResponseRoute,
-	RestResponsePrice,
+	Pair,
+	ResponsePing,
+	ResponseRate,
+	ResponseRates,
+	ResponseRoute,
+	ResponsePrice,
 } from '../types';
 import { PriceFeedRest } from './PriceFeedRest';
 
@@ -14,22 +15,22 @@ describe('PriceFeedRest', () => {
 	const rest = new PriceFeedRest();
 	test('ping', async () => {
 		const res = await rest.ping();
-		typia.assertEquals<RestResponsePing>(res);
+		typia.assertEquals<ResponsePing>(res);
 	});
 	test('rate', async () => {
-		const res = await rest.rate('binance', { base: 'BTC', quote: 'USDT' });
-		typia.assertEquals<RestResponseRate>(res);
+		const res = await rest.rate('binance', new Pair('BTC', 'USDT'));
+		typia.assertEquals<ResponseRate>(res);
 	});
 	test('rates', async () => {
 		const res = await rest.rates();
-		typia.assertEquals<RestResponseRates>(res);
+		typia.assertEquals<ResponseRates>(res);
 	});
 	test('route', async () => {
-		const res = await rest.route({ base: 'BTC', quote: 'USDT' });
-		typia.assertEquals<RestResponseRoute>(res);
+		const res = await rest.route(new Pair('BTC', 'USDT'));
+		typia.assertEquals<ResponseRoute>(res);
 	});
 	test('price', async () => {
-		const res = await rest.price({ base: 'BTC', quote: 'USDT' });
-		typia.assertEquals<RestResponsePrice>(res);
+		const res = await rest.price(new Pair('BTC', 'USDT'));
+		typia.assertEquals<ResponsePrice>(res);
 	});
 });

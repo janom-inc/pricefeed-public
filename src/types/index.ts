@@ -1,15 +1,27 @@
 
-export * from './rest';
-export * from './ws';
+export * from './message';
 
-export type BaseOrQuote = 'base' | 'quote';
+export type Side = 'base' | 'quote';
 
-export interface Pair extends Record<BaseOrQuote, string> {
-	base: string;
-	quote: string;
+export class Pair implements Record<Side, string> {
+	
+	constructor(public base: string, public quote: string) {}
+	
+	public toString(): string {
+		return `${this.base}-${this.quote}`;
+	}
+	
+	public fromString(pairStr: string): Pair {
+		const [base, quote] = pairStr.split('-');
+		if(!base || !quote) {
+			throw new Error(`Invalid pair string: ${pairStr}`);
+		}
+		return new Pair(base, quote);
+	}
+	
 }
 
-export interface TradingVolume extends Record<BaseOrQuote, number> {
+export interface TradingVolume extends Record<Side, number> {
 	base: number;
 	quote: number;
 }
@@ -43,7 +55,7 @@ export class PathElement {
 		if(!quote) {
 			throw new Error(`Invalid pair string: ${pairStr}`);
 		}
-		return new PathElement(source, { base, quote });
+		return new PathElement(source, new Pair(base, quote));
 	}
 	
 }

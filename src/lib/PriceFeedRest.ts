@@ -1,11 +1,11 @@
 
 import {
 	Pair,
-	RestResponsePing,
-	RestResponseRate,
-	RestResponseRates,
-	RestResponseRoute,
-	RestResponsePrice,
+	ResponsePing,
+	ResponseRate,
+	ResponseRates,
+	ResponseRoute,
+	ResponsePrice,
 } from '../types';
 
 export class PriceFeedRest {
@@ -19,24 +19,24 @@ export class PriceFeedRest {
 		return (await (await fetch(`${this.endpoint}${path}`)).json()) as T;
 	}
 	
-	public ping(): Promise<RestResponsePing> {
-		return this.fetch<RestResponsePing>('/v1/ping');
+	public ping(): Promise<ResponsePing> {
+		return this.fetch<ResponsePing>('/v1/ping');
 	}
 	
-	public rate(source: string, pair: Pair): Promise<RestResponseRate> {
-		return this.fetch<RestResponseRate>(`/v1/rate/${source}/${pair.base}-${pair.quote}`);
+	public rate(source: string, pair: Pair): Promise<ResponseRate> {
+		return this.fetch<ResponseRate>(`/v1/rate/${source}/${pair.base}-${pair.quote}`);
 	}
 	
-	public rates(): Promise<RestResponseRates> {
-		return this.fetch<RestResponseRates>('/v1/rates');
+	public rates(): Promise<ResponseRates> {
+		return this.fetch<ResponseRates>('/v1/rates');
 	}
 	
-	public route(pair: Pair): Promise<RestResponseRoute> {
-		return this.fetch<RestResponseRoute>(`/v1/route/${pair.base}-${pair.quote}`);
+	public route(pair: Pair): Promise<ResponseRoute> {
+		return this.fetch<ResponseRoute>(`/v1/route/${pair.base}-${pair.quote}`);
 	}
 	
-	public price(pair: Pair): Promise<RestResponsePrice> {
-		return this.fetch<RestResponsePrice>(`/v1/price/${pair.base}-${pair.quote}`);
+	public price(pair: Pair): Promise<ResponsePrice> {
+		return this.fetch<ResponsePrice>(`/v1/price/${pair.base}-${pair.quote}`);
 	}
 	
 }

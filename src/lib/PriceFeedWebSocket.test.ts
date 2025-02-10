@@ -3,9 +3,9 @@ import typia from 'typia';
 
 import { PriceFeedWebSocket } from './PriceFeedWebSocket';
 import {
-	WebSocketResponsePing,
-	WebSocketResponseSnapshot,
-	WebSocketResponseUpdate,
+	ResponsePing,
+	ResponseRates,
+	ResponsePrice,
 } from '../types';
 
 describe('PriceFeedWebSocket', () => {
@@ -17,7 +17,7 @@ describe('PriceFeedWebSocket', () => {
 		const sdk = new PriceFeedWebSocket();
 		const res = await sdk.ping();
 		try {
-			typia.assertEquals<WebSocketResponsePing>(res);
+			typia.assertEquals<ResponsePing>(res);
 		} catch (e) {
 			sdk.close();
 			throw e;
@@ -28,7 +28,7 @@ describe('PriceFeedWebSocket', () => {
 		const sdk = new PriceFeedWebSocket();
 		const res = await sdk.subscribeRates([]);
 		try {
-			typia.assertEquals<WebSocketResponseSnapshot>(res);
+			typia.assertEquals<ResponseRates>(res);
 		} catch (e) {
 			sdk.close();
 			throw e;
@@ -39,7 +39,7 @@ describe('PriceFeedWebSocket', () => {
 		const sdk = new PriceFeedWebSocket();
 		const res = await sdk.subscribeRates(['binance:BTC-USDT']);
 		try {
-			typia.assertEquals<WebSocketResponseSnapshot>(res);
+			typia.assertEquals<ResponseRates>(res);
 		} catch (e) {
 			sdk.close();
 			throw e;
@@ -49,13 +49,15 @@ describe('PriceFeedWebSocket', () => {
 	test('receive update (binance:BTC-USDT)', async () => {
 		const sdk = new PriceFeedWebSocket();
 		await sdk.subscribeRates(['binance:BTC-USDT']);
-		const res = await new Promise<WebSocketResponseUpdate>((resolve) => {
-			sdk.addEventListener('message-update', (event) => {
-				resolve(event.data);
+		const res = await new Promise<ResponseRates>((resolve) => {
+			sdk.addEventListener('message-rates', (event) => {
+				if(event.data.id === undefined) {
+					resolve(event.data);
+				}
 			});
 		});
 		try {
-			typia.assertEquals<WebSocketResponseUpdate>(res);
+			typia.assertEquals<ResponseRates>(res);
 		} catch (e) {
 			sdk.close();
 			throw e;

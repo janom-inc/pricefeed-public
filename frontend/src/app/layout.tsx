@@ -1,6 +1,19 @@
+
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
+
+import {
+	Container,
+	Link,
+} from "@mui/material";
+import { ThemeProvider } from '@mui/material/styles';
+
+import Menu from '@/components/Menu';
+
+import theme from '../theme';
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -27,7 +40,29 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				{children}
+				<AppRouterCacheProvider>
+					<ThemeProvider theme={theme}>
+						<Menu />
+						<Container maxWidth="lg">
+							<div style={{
+								marginTop: '2rem',
+							}}>
+								{children}
+							</div>
+							<hr
+								style={{
+									margin: '2rem 0',
+								}}
+								/>
+							<footer>
+								<p>
+									Copyright &copy; {new Date().getFullYear()} <Link href="https://pricefeed.info/">PriceFeed.info</Link> by <Link href="https://janom.co.jp/" target="_blank">Janom LLC</Link>.
+									All rights reserved.
+								</p>
+							</footer>
+						</Container>
+					</ThemeProvider>
+				</AppRouterCacheProvider>
 			</body>
 		</html>
 	);

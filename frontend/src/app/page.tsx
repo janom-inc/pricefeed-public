@@ -64,7 +64,14 @@ export default function Home() {
 					marginBottom: '3rem',
 				}}
 			>
-				<Image alt="eyecatch" src="/img/eyecatch.png" style={{ width: '100%' }} />
+				<Image
+					alt="eyecatch"
+					src="/img/eyecatch.png"
+					width={0}
+					height={0}
+					sizes="100vw"
+					style={{ width: '100%', height: 'auto' }}
+				/>
 			</div>
 			<Typography variant="h3" gutterBottom>Live Prices</Typography>
 			<Grid container spacing={2}>

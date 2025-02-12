@@ -41,6 +41,8 @@ export default function Menu() {
 					<Image
 						alt="logo"
 						src="/img/logo/logo.svg"
+						width={40}
+						height={40}
 						style={{
 							maxWidth: '40px',
 							marginRight: '20px',

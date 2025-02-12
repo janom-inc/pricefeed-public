@@ -4,6 +4,7 @@ import {
 	useState,
 	useEffect,
 } from 'react';
+import Image from 'next/image';
 
 import {
 	Grid2 as Grid,
@@ -22,28 +23,27 @@ export default function Home() {
 	
 	const [prices, setPrices] = useState<ResponsePrice[]>([]);
 	
-	const pricesToWatch = [
-		'EUR-USD',
-		'USD-JPY',
-		'GBP-USD',
-		'XAU-USD',
-		'BTC-USD',
-		'ETH-USD',
-		'USDT-USD',
-		'XRP-USD',
-		'BNB-USD',
-		'SOL-USD',
-		'USDC-USD',
-		'DOGE-USD',
-		'ADA-USD',
-		'TRX-USD',
-		//'-',
-	];
-	
 	useEffect(() => {
+		const pricesToWatch = [
+			'EUR-USD',
+			'USD-JPY',
+			'GBP-USD',
+			'XAU-USD',
+			'BTC-USD',
+			'ETH-USD',
+			'USDT-USD',
+			'XRP-USD',
+			'BNB-USD',
+			'SOL-USD',
+			'USDC-USD',
+			'DOGE-USD',
+			'ADA-USD',
+			'TRX-USD',
+			//'-',
+		];
 		const pf = new PriceFeed();
 		(async () => {
-			const prices = await Promise.all(pricesToWatch.map((pair, index) => {
+			const prices = await Promise.all(pricesToWatch.map((pair) => {
 				const [base, quote] = pair.split('-');
 				return pf.watchPrice(new Pair(base, quote));
 			}));
@@ -64,7 +64,7 @@ export default function Home() {
 					marginBottom: '3rem',
 				}}
 			>
-				<img alt="eyecatch" src="/img/eyecatch.png" style={{ width: '100%' }} />
+				<Image alt="eyecatch" src="/img/eyecatch.png" style={{ width: '100%' }} />
 			</div>
 			<Typography variant="h3" gutterBottom>Live Prices</Typography>
 			<Grid container spacing={2}>

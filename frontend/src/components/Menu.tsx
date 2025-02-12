@@ -1,23 +1,19 @@
 'use client';
 
 import * as React from 'react';
-
+import Image from 'next/image';
 import {
 	AppBar,
 	Box,
 	Toolbar,
 	IconButton,
 	Typography,
-	Menu,
+	Menu as MuiMenu,
 	MenuItem,
-	Avatar,
 	Button,
-	Tooltip,
 	Container,
-	Link,
 } from '@mui/material';
 import {
-	Adb as AdbIcon,
 	Menu as MenuIcon,
 } from '@mui/icons-material';
 
@@ -27,32 +23,22 @@ const pages = [
 		href: '/pricing',
 	},
 ];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-export default function() {
+export default function Menu() {
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 	
 	const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElNav(event.currentTarget);
 	};
-	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-		setAnchorElUser(event.currentTarget);
-	};
-	
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null);
-	};
-	
-	const handleCloseUserMenu = () => {
-		setAnchorElUser(null);
 	};
 	
 	return (
 		<AppBar position="static" color="primary">
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
-					<img
+					<Image
 						alt="logo"
 						src="/img/logo/logo.svg"
 						style={{
@@ -88,7 +74,7 @@ export default function() {
 						>
 							<MenuIcon />
 						</IconButton>
-						<Menu
+						<MuiMenu
 							id="menu-appbar"
 							anchorEl={anchorElNav}
 							anchorOrigin={{
@@ -118,7 +104,7 @@ export default function() {
 									</Typography>
 								</MenuItem>
 							))}
-						</Menu>
+						</MuiMenu>
 					</Box>
 					<Typography
 						variant="h5"

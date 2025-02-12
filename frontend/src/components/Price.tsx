@@ -13,7 +13,7 @@ export function numberToHR(n: number, digits: number = 5) {
 	});
 }
 
-export default function(props: PriceProps) {
+export default function Price(props: PriceProps) {
 	return (
 		<span>
 			{numberToHR(props.value)}

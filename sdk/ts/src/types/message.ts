@@ -87,7 +87,7 @@ export interface ResponsePayloadPriceSource {
 
 export interface ResponsePayloadPrice {
 	price: number;
-	pair: IPair,
+	pair: string,
 	sources: ResponsePayloadPriceSource[],
 }
 

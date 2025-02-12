@@ -12,7 +12,14 @@ export default function Home() {
 	
 	useEffect(() => {
 		const pf = new PriceFeed();
+		pf.addEventListener('price', (event) => {
+			const pair = event.data.data.payload.pair;
+			const price = event.data.data.payload.price;
+			prices[]
+			setPrices(event.detail);
+		});
 	}, []);
+	
 	return (
 		<div>
 			<img alt="eyecatch" src="/img/eyecatch.png" style={{ width: '100%' }} />

@@ -3,7 +3,12 @@ export * from './message';
 
 export type Side = 'base' | 'quote';
 
-export class Pair implements Record<Side, string> {
+export interface IPair extends Record<Side, string> {
+	base: string;
+	quote: string;
+}
+
+export class Pair implements IPair {
 	
 	constructor(public base: string, public quote: string) {}
 	
@@ -34,6 +39,11 @@ export interface ExchangeRate {
 	tradingVolume24h?: TradingVolume;
 }
 
+export interface IPathElement {
+	source: string;
+	pair: IPair;
+}
+
 export class PathElement {
 	
 	constructor(
@@ -59,6 +69,8 @@ export class PathElement {
 	}
 	
 }
+
+export type IPath = IPathElement[];
 
 export class Path extends Array<PathElement> {
 	

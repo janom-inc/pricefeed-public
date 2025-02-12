@@ -1,5 +1,6 @@
 
 import {
+	IPair,
 	ExchangeRate,
 } from '.';
 
@@ -86,6 +87,7 @@ export interface ResponsePayloadPriceSource {
 
 export interface ResponsePayloadPrice {
 	price: number;
+	pair: IPair,
 	sources: ResponsePayloadPriceSource[],
 }
 

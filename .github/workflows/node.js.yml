@@ -14,6 +14,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./sdk/ts
+
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]

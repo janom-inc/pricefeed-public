@@ -120,12 +120,11 @@ export default function() {
 							))}
 						</Menu>
 					</Box>
-					<AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
 					<Typography
 						variant="h5"
 						noWrap
 						component="a"
-						href="#app-bar-with-responsive-menu"
+						href="/"
 						sx={{
 							mr: 2,
 							display: { xs: 'flex', md: 'none' },
@@ -137,7 +136,7 @@ export default function() {
 							textDecoration: 'none',
 						}}
 					>
-						LOGO
+						PriceFeed.info
 					</Typography>
 					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 						{pages.map((page) => (

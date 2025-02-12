@@ -16,7 +16,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./sdk/ts
+        working-directory: './sdk/ts'
 
     strategy:
       matrix:

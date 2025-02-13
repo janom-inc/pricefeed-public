@@ -41,7 +41,6 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<GoogleAnalytics gaId="G-4GMGN06F6D" />
 				<AppRouterCacheProvider>
 					<ThemeProvider theme={theme}>
 						<Menu />
@@ -66,6 +65,7 @@ export default function RootLayout({
 					</ThemeProvider>
 				</AppRouterCacheProvider>
 			</body>
+			<GoogleAnalytics gaId="G-4GMGN06F6D" />
 		</html>
 	);
 }

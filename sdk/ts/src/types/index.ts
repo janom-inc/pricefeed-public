@@ -26,6 +26,12 @@ export class Pair implements IPair {
 	
 }
 
+export interface Rate {
+	last: number;
+	bid: number;
+	ask: number;
+}
+
 export interface TradingVolume extends Record<Side, number> {
 	base: number;
 	quote: number;
@@ -34,7 +40,7 @@ export interface TradingVolume extends Record<Side, number> {
 export interface ExchangeRate {
 	time: number;
 	pair: Pair;
-	rate: number;
+	rate: Rate;
 	source: string;
 	tradingVolume24h?: TradingVolume;
 }

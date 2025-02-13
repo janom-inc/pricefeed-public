@@ -1,6 +1,6 @@
 
 import {
-	IPair,
+	Rate,
 	ExchangeRate,
 } from '.';
 
@@ -81,12 +81,12 @@ export type ResponseRoute = ResponseSuccess<'route', string[]>;
 
 export interface ResponsePayloadPriceSource {
 	path: string;
-	price: number;
+	price: Rate;
 	weight: number;
 }
 
 export interface ResponsePayloadPrice {
-	price: number;
+	price: Rate;
 	pair: string,
 	sources: ResponsePayloadPriceSource[],
 }

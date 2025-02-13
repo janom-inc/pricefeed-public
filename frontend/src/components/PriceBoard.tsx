@@ -4,16 +4,19 @@ import {
 } from 'react';
 
 import {
+	Grid2 as Grid,
 	Divider,
 } from '@mui/material';
 
-import Price from '@/components/Price'
+import {
+	Rate,
+} from '@pricefeed/sdk';
 
-import { numberToHR } from '@/components/Price';
+import Price, { numberToHR } from '@/components/Price'
 
 export interface PriceBoardProps {
 	pair: string;
-	price: number;
+	price: Rate;
 }
 
 export default class PriceBoard extends Component<PriceBoardProps> {
@@ -22,43 +25,52 @@ export default class PriceBoard extends Component<PriceBoardProps> {
 	public static BLINK_COLOR = 'red';
 	public static NORMAL_COLOR = 'black';
 	
-	private _timeoutId?: ReturnType<typeof setTimeout>;
-	private _prevPriceHR: string = '';
+	private _timeoutId: {
+		bid?: ReturnType<typeof setTimeout>,
+		ask?: ReturnType<typeof setTimeout>,
+	} = {};
+	private _prevPriceHR = {
+		bid: '',
+		ask: '',
+	};
 	
-	private _setBlinkOff(id: string) {
-		if(this._timeoutId) {
-			clearTimeout(this._timeoutId);
+	private _setBlinkOff(bidOrAsk: 'bid' | 'ask') {
+		const id = `priceboard-${this.props.pair}-${bidOrAsk}`;
+		if(this._timeoutId[bidOrAsk]) {
+			clearTimeout(this._timeoutId[bidOrAsk]);
 		}
-		this._timeoutId = setTimeout(() => {
-			document.getElementById(id)?.style.setProperty('color', 'black');
+		this._timeoutId[bidOrAsk] = setTimeout(() => {
+			document.getElementById(id)?.style.setProperty('color', PriceBoard.NORMAL_COLOR);
 		}, PriceBoard.BLINK_DURATION);
 	}
 	
-	render() {
-		const [base, quote] = this.props.pair.split('-');
-		const priceHR = numberToHR(this.props.price);
-		//const color = (this._prevPrice === undefined || this.props.price === this._prevPrice) ? 'black' : this.props.price > this._prevPrice ? 'green' : 'red';
-		const id = `priceboard-${this.props.pair}`;
+	private _getColor(bidOrAsk: 'bid' | 'ask'): string {
+		const id = `priceboard-${this.props.pair}-${bidOrAsk}`;
+		const priceHR = numberToHR(this.props.price[bidOrAsk]);
 		const color = (() => {
 			if(!document.getElementById(id)) {
-				this._setBlinkOff(id);
+				this._setBlinkOff(bidOrAsk);
 				return PriceBoard.BLINK_COLOR;
 			}
 			if(document.getElementById(id)!.style.getPropertyValue('color') === PriceBoard.BLINK_COLOR) {
 				return PriceBoard.BLINK_COLOR;
 			} else if(document.getElementById(id)!.style.getPropertyValue('color') === PriceBoard.NORMAL_COLOR) {
-				if(priceHR === this._prevPriceHR) {
+				if(priceHR === this._prevPriceHR[bidOrAsk]) {
 					return PriceBoard.NORMAL_COLOR;
 				} else {
-					this._setBlinkOff(id);
+					this._setBlinkOff(bidOrAsk);
 					return PriceBoard.BLINK_COLOR;
 				}
 			} else {
 				return PriceBoard.NORMAL_COLOR;
 			}
 		})();
-		//const color = (this._prevPrice !== undefined || this.props.price !== this._prevPrice) ? 'red': 'black';
-		this._prevPriceHR = priceHR;
+		this._prevPriceHR[bidOrAsk] = priceHR;
+		return color;
+	}
+	
+	render() {
+		const [base, quote] = this.props.pair.split('-');
 		return (
 			<div style={{
 				textAlign: 'center',
@@ -70,11 +82,22 @@ export default class PriceBoard extends Component<PriceBoardProps> {
 					{base} / {quote}
 				</div>
 				<Divider color="black" />
-				<div id={id} style={{
+				<div style={{
 					backgroundColor: '#eee',
-					color,
 				}}>
-					<Price value={this.props.price} />
+					<Grid container spacing={2}>
+						<Grid id={`priceboard-${this.props.pair}-bid`} size={6} style={{
+							color: this._getColor('bid'),
+							borderRight: '1px solid black',
+						}}>
+							<Price value={this.props.price.bid} />
+						</Grid>
+						<Grid id={`priceboard-${this.props.pair}-ask`} size={6} style={{
+							color: this._getColor('ask'),
+						}}>
+							<Price value={this.props.price.ask} />
+						</Grid>
+					</Grid>
 				</div>
 			</div>
 		);

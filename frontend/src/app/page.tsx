@@ -5,11 +5,21 @@ import {
 	useEffect,
 } from 'react';
 import Image from 'next/image';
-
 import {
+	Link,
 	Grid2 as Grid,
 	Typography,
+	Box,
 } from '@mui/material';
+import {
+	CurrencyExchange as CurrencyExchangeIcon,
+	AccountBalance as AccountBalanceIcon,
+	CreditCard as CreditCardIcon,
+} from '@mui/icons-material';
+import {
+	CopyBlock,
+	dracula,
+} from 'react-code-blocks';
 
 import {
 	Pair,
@@ -18,6 +28,7 @@ import {
 } from '@pricefeed/sdk';
 
 import PriceBoard from '@/components/PriceBoard';
+import { Bellota_Text } from 'next/font/google';
 
 export default function Home() {
 	
@@ -83,6 +94,52 @@ export default function Home() {
 					);
 				})}
 			</Grid>
+			<Typography variant="h3" gutterBottom>Features</Typography>
+			<Grid container spacing={2}>
+				<Grid size={{ md: 4 }}>
+					<Typography variant="h4" gutterBottom>
+						<CurrencyExchangeIcon fontSize="large" style={{ width: '100%' }} /><br />
+						Forex &amp; Crypto
+					</Typography>
+					<Typography variant="body1" gutterBottom>
+						We support a wide range of asset classes including Forex and Cryptocurrencies.
+					</Typography>
+				</Grid>
+				<Grid size={{ md: 4 }}>
+					<Typography variant="h4" gutterBottom>
+						<AccountBalanceIcon fontSize="large" style={{ width: '100%' }} /><br />
+						Multiple Sources
+					</Typography>
+					<Typography variant="body1" gutterBottom>
+						We fetch data from multiple exchanges and aggregates them to provide the accurate price for any currency pairs.
+					</Typography>
+				</Grid>
+				<Grid size={{ md: 4 }}>
+					<Typography variant="h4" gutterBottom>
+						<CreditCardIcon fontSize="large" style={{ width: '100%' }} /><br />
+						Pay-as-You-Go
+					</Typography>
+					<Typography variant="body1" gutterBottom>
+						Our service is free of charge for low workloads per IP adddress.
+						If you exceed the limit, you can purchase a credit to continue using our service.
+						(Note: Our service is currently in beta and you can test our service freely in beta period.)
+					</Typography>
+				</Grid>
+			</Grid>
+			<Typography variant="h3" gutterBottom>Use</Typography>
+			<Typography variant="h4" gutterBottom>For Developers</Typography>
+			<div>
+				<p>We provide REST APIs and WebSocket streams for developers.</p>
+				<p>The official SDKs can be available at <Link href="https://github.com/janom-inc/pricefeed-public" target="_blank">GitHub</Link>.</p>
+			</div>
+			<Typography variant="h4" gutterBottom>Google Sheet</Typography>
+			<div>
+				<p>You can import exchange rate in your Google Sheet (or Microsoft Excel).</p>
+				<CopyBlock text='=IMPORTDATA("https://api.pricefeed.info/v1/price/BASE-QUOTE.txt")' language="text" theme={dracula} />
+				<p>Just replace "BASE" and "QUOTE" to any your favorite asset name! For example,</p>
+				<CopyBlock text='=IMPORTDATA("https://api.pricefeed.info/v1/price/EUR-USD.txt")' language="text" theme={dracula} />
+				<p>will give you the latest EUR/USD exchange rate.</p>
+			</div>
 		</div>
 	);
 }

@@ -5,6 +5,7 @@ import './globals.css';
 
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 
+import { GoogleAnalytics } from '@next/third-parties/google'
 import {
 	Container,
 	Link,
@@ -40,6 +41,7 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
+				<GoogleAnalytics gaId="G-4GMGN06F6D" />
 				<AppRouterCacheProvider>
 					<ThemeProvider theme={theme}>
 						<Menu />

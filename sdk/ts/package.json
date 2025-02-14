@@ -21,7 +21,6 @@
     "build": "tsc",
     "clean": "rm -rf dist coverage",
     "test": "jest --coverage",
-    "postinstall": "npm run build",
     "prepare": "ts-patch install && typia patch",
     "prepack": "npm run clean && npm run build"
   },

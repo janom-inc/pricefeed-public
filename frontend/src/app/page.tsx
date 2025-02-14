@@ -9,7 +9,6 @@ import {
 	Link,
 	Grid2 as Grid,
 	Typography,
-	Box,
 } from '@mui/material';
 import {
 	CurrencyExchange as CurrencyExchangeIcon,
@@ -28,7 +27,6 @@ import {
 } from '@pricefeed/sdk';
 
 import PriceBoard from '@/components/PriceBoard';
-import { Bellota_Text } from 'next/font/google';
 
 export default function Home() {
 	
@@ -135,9 +133,9 @@ export default function Home() {
 			<Typography variant="h4" gutterBottom>Google Sheet</Typography>
 			<div>
 				<p>You can import exchange rate in your Google Sheet (or Microsoft Excel).</p>
-				<CopyBlock text='=IMPORTDATA("https://api.pricefeed.info/v1/price/BASE-QUOTE.txt")' language="text" theme={dracula} />
-				<p>Just replace "BASE" and "QUOTE" to any your favorite asset name! For example,</p>
-				<CopyBlock text='=IMPORTDATA("https://api.pricefeed.info/v1/price/EUR-USD.txt")' language="text" theme={dracula} />
+				<CopyBlock text="=IMPORTDATA(&quot;https://api.pricefeed.info/v1/price/BASE-QUOTE.txt&quot;)" language="text" theme={dracula} />
+				<p>Just replace &quot;BASE&quot; and &quot;QUOTE&quot; to any your favorite asset name! For example,</p>
+				<CopyBlock text="=IMPORTDATA(&quot;https://api.pricefeed.info/v1/price/EUR-USD.txt&quot;)" language="text" theme={dracula} />
 				<p>will give you the latest EUR/USD exchange rate.</p>
 			</div>
 		</div>

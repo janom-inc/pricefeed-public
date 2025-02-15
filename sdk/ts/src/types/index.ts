@@ -50,7 +50,7 @@ export interface IPathElement {
 	pair: IPair;
 }
 
-export class PathElement {
+export class PathElement implements IPathElement {
 	
 	constructor(
 		public readonly source: string,

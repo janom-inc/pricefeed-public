@@ -55,7 +55,7 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 				origin: event.origin,
 				lastEventId: event.lastEventId,
 				source: event.source,
-				ports: event.ports ? [...event.ports]: [],
+				ports: event.ports ? [...event.ports] : [],
 			};
 			this.dispatchEvent(new MessageEvent('message', messageEvent));
 			this.dispatchEvent(new MessageEvent(`message-${data.data.type}`, messageEvent));

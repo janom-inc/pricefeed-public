@@ -2,6 +2,7 @@
 import typia from 'typia';
 
 import { PriceFeedWebSocket } from './PriceFeedWebSocket';
+import { DEFAULT_WS_ENDPOINT } from '..';
 import {
 	ResponsePing,
 	ResponseRates,
@@ -9,8 +10,21 @@ import {
 } from '../types';
 
 describe('PriceFeedWebSocket', () => {
-	test('should exit normally', () => {
+	test('construct without PRICEFEED_WS_ENDPOINT', () => {
+		delete process.env.PRICEFEED_WS_ENDPOINT;
 		const sdk = new PriceFeedWebSocket();
+		expect(sdk).toBeInstanceOf(PriceFeedWebSocket);
+		sdk.close();
+	});
+	test('construct with PRICEFEED_WS_ENDPOINT', () => {
+		process.env.PRICEFEED_WS_ENDPOINT = DEFAULT_WS_ENDPOINT;
+		const sdk = new PriceFeedWebSocket();
+		expect(sdk).toBeInstanceOf(PriceFeedWebSocket);
+		sdk.close();
+	});
+	test('construct with endpoint', () => {
+		const sdk = new PriceFeedWebSocket(DEFAULT_WS_ENDPOINT);
+		expect(sdk).toBeInstanceOf(PriceFeedWebSocket);
 		sdk.close();
 	});
 	test('ping', async () => {

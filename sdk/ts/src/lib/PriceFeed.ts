@@ -1,5 +1,9 @@
 
 import {
+	DEFAULT_REST_ENDPOINT,
+	DEFAULT_WS_ENDPOINT,
+} from '..';
+import {
 	PriceFeedRest,
 	PriceFeedWebSocket,
 } from '.';
@@ -22,8 +26,8 @@ export class PriceFeed extends (EventTarget as typeof TypedEventTarget<{
 	public readonly ws = new PriceFeedWebSocket(this.wsEndpoint);
 	
 	constructor(
-		public readonly restEndpoint: string = process.env.PRICEFEED_REST_ENDPOINT ?? 'https://api.pricefeed.info',
-		public readonly wsEndpoint: string = process.env.PRICEFEED_WS_ENDPOINT ?? 'wss://api.pricefeed.info',
+		public readonly restEndpoint: string = process.env.PRICEFEED_REST_ENDPOINT ?? DEFAULT_REST_ENDPOINT,
+		public readonly wsEndpoint: string = process.env.PRICEFEED_WS_ENDPOINT ?? DEFAULT_WS_ENDPOINT,
 	) {
 		super();
 		this.ws.addEventListener('message-rates', (event) => {

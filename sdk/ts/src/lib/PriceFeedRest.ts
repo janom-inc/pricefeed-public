@@ -1,4 +1,5 @@
 
+import { DEFAULT_REST_ENDPOINT } from '..';
 import {
 	Pair,
 	ResponsePing,
@@ -11,7 +12,7 @@ import {
 export class PriceFeedRest {
 	
 	constructor(
-		public readonly endpoint: string = process.env.PRICEFEED_REST_ENDPOINT ??  'https://api.pricefeed.info',
+		public readonly endpoint: string = process.env.PRICEFEED_REST_ENDPOINT ?? DEFAULT_REST_ENDPOINT,
 	) {
 	}
 	

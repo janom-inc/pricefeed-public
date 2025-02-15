@@ -2,6 +2,7 @@
 import WebSocketPackage from 'ws';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
+import { DEFAULT_WS_ENDPOINT } from '..';
 import {
 	Response,
 	ResponsePing,
@@ -32,7 +33,7 @@ export class PriceFeedWebSocket extends (EventTarget as typeof TypedEventTarget<
 	private _ws = new ReconnectingWebSocket(this.endpoint, undefined, { WebSocket: globalThis.WebSocket ?? WebSocketPackage });
 	
 	constructor(
-		public readonly endpoint: string = process.env.PRICEFEED_WS_ENDPOINT ?? 'wss://api.pricefeed.info',
+		public readonly endpoint: string = process.env.PRICEFEED_WS_ENDPOINT ?? DEFAULT_WS_ENDPOINT,
 	) {
 		super();
 		this._ws.addEventListener('open', (event) => {
